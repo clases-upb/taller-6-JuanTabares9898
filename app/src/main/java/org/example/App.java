@@ -3,22 +3,54 @@
  */
 package org.example;
 
-public class App {
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.util.Arrays;
+
+public class  App {
+
+    static int[] v_numeros = new int[(int) (Math.random()*15+1)];
+    static String[] v_strings = new String[(int) (Math.random()*15+1)];
 
     public static void main(String[] args) {
         try {
 
         } catch (Exception e) {
-            // TODO: handle exception
+            System.out.println("error\n" + e);
         }
     }
 
     /*
      * 1. Implemente un programa en java donde inserte elementos en dos vectores
      * globales de tamaños aleatorios y de contenido aleatorio (uno numérico y otro
-     * de Strings). Considere dejar espacios libres en los vectores.
-     * 
-     * Desde un menú en el programa principal debe considerar cada opción para
+     * de Strings). Considere dejar espacios libres en los vectores.*/
+
+    public static void llenar_vectores(){
+       try {
+           for (int i = 0; i < v_numeros.length; i++) {
+               v_numeros[i] = (int) (Math.random()*100)+1;
+           }
+           String letras = "abcdefghijklmnñopqrstuvwxyz";
+           byte n1;
+           byte n2;
+           for (int i = 0; i < v_strings.length; i++) {
+               n1 = (byte) (Math.random() * (letras.length()));
+               n2 = (byte) (Math.random() * (letras.length()));
+               if (n1 < n2)
+                   v_strings[i] = letras.substring(n1, n2);
+               else if (n2 < n1)
+                   v_strings[i] = letras.substring(n2, n1);
+               else
+                   v_strings[i] = letras.substring(n1, n2);
+           }
+       } catch (Exception e) {
+           throw new RuntimeException(e);
+       }
+
+    }
+    
+     /* Desde un menú en el programa principal debe considerar cada opción para
      * llamar las siguientes funciones que también debe programar:
      * 
      * a. Recorrer secuencialmente (recibe un true cuando va del primero al último y
@@ -26,38 +58,236 @@ public class App {
      * • De primer elemento a último elemento: Imprime desde el primer elemento
      * hasta el último del vector dado en el parámetro de entrada.
      * • De último elemento al primer elemento: Imprime desde el último elemento
-     * hasta el primero del vector dado en el parámetro de entrada.
-     * 
-     * b. Actualizar: recibe la posición que va a actualizar y el elemento. Al final
-     * imprime el vector actualizado.
-     * 
-     * c. Añadir: después del último: recibe el elemento que va a añadir. Al final
-     * imprime el vector actualizado.
-     * 
-     * d. Borrar: Recibe la posición donde del elemento que va a borrar.
-     * 
-     * e. Ordenar el vector:
+     * hasta el primero del vector dado en el parámetro de entrada. */
+    
+    public static void recorrer_secuencialmente(String[] vector ,boolean modo){
+        try {
+            if (modo){
+                for (int i = 0; i < vector.length; i++) {
+                    System.out.println(vector[i]);
+                }
+            }
+            else {
+                for (int i = vector.length-1; i >= 0; i--) {
+                    System.out.println(vector[i]);
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+     /* b. Actualizar: recibe la posición que va a actualizar y el elemento. Al final
+     * imprime el vector actualizado.*/
+    public static void actualizar(String[] vector, int posicion, String valor){
+        try {
+            vector[posicion] = valor;
+            System.out.println(Arrays.toString(vector));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void actualizar(int[] vector, int posicion, int valor){
+        try {
+            vector[posicion] = valor;
+            System.out.println(Arrays.toString(vector));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+     * /*c. Añadir: después del último: recibe el elemento que va a añadir. Al final
+     * imprime el vector actualizado.*/
+    public static void agregar(String[] vector, String valor){
+        try {
+            String[] nuevo_vector = new String[vector.length+1];
+            System.arraycopy(vector, 0, nuevo_vector, 0, vector.length);
+            nuevo_vector[nuevo_vector.length-1] = valor;
+            System.out.println(Arrays.toString(nuevo_vector));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void agregar(int[] vector, int valor){
+        try {
+            int[] nuevo_vector = new int[vector.length+1];
+            System.arraycopy(vector, 0, nuevo_vector, 0, vector.length);
+            nuevo_vector[nuevo_vector.length-1] = valor;
+            System.out.println(Arrays.toString(nuevo_vector));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+     * /*d. Borrar: Recibe la posición donde del elemento que va a borrar.*/
+      public static void borrar(String[] vector, int posicion){
+        try {
+            String[] nuevo_vector = new String[vector.length-1];
+            System.arraycopy(vector, 0, nuevo_vector, 0, posicion);
+            System.arraycopy(vector, posicion+1, nuevo_vector, posicion, vector.length - posicion - 1);
+            System.out.println(Arrays.toString(nuevo_vector));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void borrar(int[] vector, int posicion){
+        try {
+            int[] nuevo_vector = new int[vector.length-1];
+            System.arraycopy(vector, 0, nuevo_vector, 0, posicion);
+            System.arraycopy(vector, posicion+1, nuevo_vector, posicion, vector.length - posicion - 1);
+            System.out.println(Arrays.toString(nuevo_vector));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+     * /*e. Ordenar el vector:
      * • Ascendentemente.
-     * • Descendentemente.
-     * 
-     * f. Búsqueda: Recibe como parámetro el elemento a buscar y devuelve un String
+     * • Descendentemente.*/
+     public static void ordenar_vector(int[] vector, boolean ascendente){
+        try {
+            if (ascendente){
+                Arrays.sort(vector);
+                System.out.println(Arrays.toString(vector));
+            }
+            else {
+                int[] nuevo_vector = new int[vector.length];
+                Arrays.sort(vector);
+                int contador = 0;
+                for (int i = vector.length-1; i >= 0; i--) {
+                    nuevo_vector[contador] = vector[i];
+                    contador++;
+                }
+                System.out.println(Arrays.toString(nuevo_vector));
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    public static String[] ordenar_vector(String[] vector, boolean ascendente){
+        try {
+            if (ascendente){
+                Arrays.sort(vector);
+                return vector;
+            }
+            else {
+                String[] nuevo_vector = new String[vector.length];
+                Arrays.sort(vector);
+                int contador = 0;
+                for (int i = vector.length-1; i >= 0; i--) {
+                    nuevo_vector[contador] = vector[i];
+                    contador++;
+                }
+                return nuevo_vector;
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+    /*f. Búsqueda: Recibe como parámetro el elemento a buscar y devuelve un String
      * separado por el carácter '-', mostrando las posiciones donde se encuentra el
      * elemento.
      */
+public static String buscar(String[] vector, String elemento){
+        try {
+            StringBuilder mensaje = new StringBuilder();
+            for (int i = 0; i < vector.length; i++) {
+                if (vector[i].equals(elemento))
+                    mensaje.append(i).append("-");
+            }
+            return mensaje.toString();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
+    public static String buscar(int[] vector, int elemento){
+        try {
+            StringBuilder mensaje = new StringBuilder();
+            for (int i = 0; i < vector.length; i++) {
+                if (vector[i] == elemento)
+                    mensaje.append(i).append("-");
+            }
+            return mensaje.toString();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
     /*
      * 2. Escriba un algoritmo que calcule aleatoriamente N temperaturas, las lleve
      * a un vector y luego calcule su media, cuántas temperaturas están por encima
      * de la media y cuántas por debajo.
      */
+public static String temperaturas(int n){
+        try {
+            double[] v_temps = new double[n];
 
+            StringBuilder msje = new StringBuilder();
+            double media = 0;
+            for (int i = 0; i < v_temps.length; i++) {
+                v_temps[i] = Math.random()*100+1;
+                media += v_temps[i];
+            }
+            media /= v_temps.length;
+
+            int bajo_media = 0;
+            int sobre_media = 0;
+            for (int i = 0; i < v_temps.length; i++) {
+                if (v_temps[i] > media)
+                    sobre_media++;
+                else
+                    bajo_media++;
+            }
+
+            msje.append(Arrays.toString(v_temps)).append("\n");
+            msje.append("Media: ").append(media).append("\n");
+            msje.append("Bajo la media: ").append(bajo_media).append("\n");
+            msje.append("Sobre la media: ").append(sobre_media).append("\n");
+
+            return msje.toString();
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
     /*
      * 3. Cargue un vector a partir de un archivo de palabras, con mínimo 10
      * palabras. Ordene el vector de manera ascendente y luego de forma descendente.
      * 
      * Escriba el vector inicial sin ordenar, los vectores ordenados.
      */
+public static void vector_archivo(String ruta){
+        try {
+            File file = new File(ruta);
+            FileReader fr = new FileReader(file);
+            BufferedReader br = new BufferedReader(fr);
+            String[] vector;
 
+
+            StringBuilder elementos = new StringBuilder();
+            String linea = br.readLine();
+            while (linea != null) {
+                elementos.append(linea);
+                linea = br.readLine();
+                if (linea != null) {
+                    elementos.append(";");
+                }
+            }
+            vector = elementos.toString().split(";");
+
+            System.out.println("Vector: " + Arrays.toString(vector));
+            Arrays.sort(vector);
+            System.out.println("Vector asc: " + Arrays.toString(vector));
+            System.out.println("Vector desc: " + Arrays.toString(ordenar_vector(vector, false)));
+
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
     /*
      * 4. Escriba un algoritmo que cree un vector de N elementos (el N es dado por
      * el usuario) de números short aleatorios positivos mayores que cero, y luego
@@ -68,17 +298,197 @@ public class App {
      * posición quiere borrar y mostrará nuevamente el menú. En el menú aparecerá la
      * opción para terminar el programa.
      */
+public static void EliminarPosicion() throws Exception {
+    try {
+        final byte valorCero = 0, valorCien = 100;
+        
+        System.out.println("Ingrese el tamaño del vector: ");
+        short tamanoVector = teclado.nextShort();
+        short seleccionMenu;
+        
+        if (tamanoVector > valorCero) {
+
+            short[] numerosVector = new short[tamanoVector];
+            
+            // Inicialización del vector con números aleatorios
+            for (int i = 0; i < numerosVector.length; i++) {
+                numerosVector[i] = (short) ((Math.random() * (valorCien) + 1));
+            }
+            
+            do {
+                System.out.println("Ingrese la posición a eliminar. Si elige una posición no válida o -1, el programa terminará.");
+                tamanoVector = teclado.nextShort();
+
+                if (tamanoVector >= valorCero && tamanoVector < numerosVector.length) {
+
+                    do {
+
+                        System.out.println("\n1. Reemplazar la posición con 0");
+                        System.out.println("2. Mover elementos, dejando 0 en la última posición");
+                        System.out.println("3. Regresar al menú anterior (Cualquier valor inválido lo regresará también)");
+                        seleccionMenu = teclado.nextShort();
+
+                        if (seleccionMenu >= valorCero) {
+
+                            switch (seleccionMenu) {
+                                case 1:
+                                    System.out.println("Vector actual antes de los cambios:\n");
+                                    for (short num : numerosVector) {
+                                        System.out.print(num + "\t");
+                                    }
+
+                                    numerosVector[tamanoVector] = 0;
+                                    System.out.println("\nVector actualizado, posición " + tamanoVector + " en 0:\n");
+
+                                    for (short num : numerosVector) {
+                                        System.out.print(num + "\t");
+                                    }
+                                    break;
+
+                                case 2:
+                                    System.out.println("Vector actual antes de los cambios:\n");
+                                    for (short num : numerosVector) {
+                                        System.out.print(num + "\t");
+                                    }
+
+                                    // Desplazando los valores
+                                    for (int n = tamanoVector; n < numerosVector.length - 1; n++) {
+                                        numerosVector[n] = numerosVector[n + 1];
+                                    }
+                                    numerosVector[numerosVector.length - 1] = 0;
+
+                                    System.out.println("\nVector con la posición eliminada al final:\n");
+
+                                    for (short num : numerosVector) {
+                                        System.out.print(num + "\t");
+                                    }
+                                    break;
+                            }
+
+                        } else {
+                            seleccionMenu = 3; // Volver al menú si selecciona una opción inválida
+                        }
+
+                    } while (seleccionMenu != 3);
+
+                } else {
+                    tamanoVector = -1;
+                    System.out.println("Posición inválida, el programa se cerrará.");
+                }
+
+            } while (tamanoVector != -1);
+
+            Thread.sleep(2000);
+            System.out.println("\nPrograma finalizado. ¡Que tenga un buen día!");
+
+            teclado.close();
+
+        } else {
+            System.out.println("Tamaño de vector no válido, intente nuevamente.");
+            teclado.close();
+        }
+
+    } catch (Exception e) {
+        throw new Exception("Error en la función EliminarPosicion\n" + e.toString());
+    }
+}
 
     /*
      * 5. Escriba un algoritmo para convertir un número decimal en un número
      * hexadecimal, apoyado en vectores.
      */
+public static void convertirDecimalHex() throws Exception {
+
+    try {
+        int decimal;
+        String[] hexArray = new String[100];
+        int contador = 0;
+
+        System.out.println("Ingrese un número decimal que desee convertir a hexadecimal:");
+        decimal = teclado.nextInt();
+        teclado.close();
+
+        if (decimal < 0) {
+            System.out.println("El número debe ser positivo, intente nuevamente.");
+        } else {
+            while (decimal > 0) {
+                int resto = decimal % 16;
+                String hexDigit;
+
+                if (resto < 10) {
+                    hexDigit = Integer.toString(resto);
+                } else {
+                    hexDigit = Character.toString((char) ('A' + (resto - 10)));
+                }
+
+                hexArray[contador] = hexDigit;
+                decimal /= 16;
+                contador++;
+            }
+
+            System.out.print("El equivalente hexadecimal es: ");
+            for (int i = contador - 1; i >= 0; i--) {
+                System.out.print(hexArray[i]);
+            }
+            System.out.println();
+        }
+
+    } catch (Exception ex) {
+        throw new Exception("Se ha producido un error en la función convertirDecimalHex: " + ex.toString());
+    }
+}
 
     /*
      * 6. Escriba un algoritmo que solicite al usuario el orden de una matriz
      * cuadrática, implemente su matriz transpuesta (investiga qué es) y la imprima.
      */
-
+  public static void generarMatrizTranspuesta() throws Exception {
+        try {
+            int filas, columnas;
+    
+            System.out.println("Ingrese el número de filas para la matriz:");
+            filas = teclado.nextInt();
+    
+            System.out.println("\nIngrese el número de columnas para la matriz:");
+            columnas = teclado.nextInt();
+    
+            final byte minimo = 0, maximo = 9, valorDos = 2, valorUno = 1;
+            String resultado = "";
+    
+            if (filas > minimo && columnas > minimo) {
+                int[][] matrizOriginal = new int[filas][columnas];
+                int[][] matrizTranspuesta = new int[columnas][filas];  
+    
+                System.out.println("Matriz original:\n");
+    
+                for (int fila = 0; fila < matrizOriginal.length; fila++) {
+                    for (int columna = 0; columna < matrizOriginal[fila].length; columna++) {
+                        matrizOriginal[fila][columna] = (int) (Math.random() * (maximo - valorDos + valorUno) + valorDos);
+                        matrizTranspuesta[columna][fila] = matrizOriginal[fila][columna];
+                        resultado += matrizOriginal[fila][columna] + "\t";
+                    }
+                    resultado += "\n";
+                }
+    
+                System.out.println(resultado);
+                resultado = "";
+    
+                System.out.println("\nMatriz transpuesta:\n");
+    
+                for (int fila = 0; fila < matrizTranspuesta.length; fila++) {
+                    for (int columna = 0; columna < matrizTranspuesta[fila].length; columna++) {
+                        resultado += matrizTranspuesta[fila][columna] + "\t";
+                    }
+                    resultado += "\n";
+                }
+                System.out.println(resultado);
+            }
+    
+        } catch (Exception e) {
+            throw new Exception("Error en la función generarMatrizTranspuesta: " + e.toString());
+        }
+    }
+    
     /*
      * 7. Escriba un algoritmo que calcule el producto y la división. Los operandos
      * serán la suma de elementos de la diagonal principal y la suma de los
@@ -86,18 +496,172 @@ public class App {
      * llenados usando la función random para calcular números aleatorios entre 10 y
      * 100.
      */
-
+ public static void calcularProductoYCocienteDiagonales() throws Exception {
+        try {
+    
+            DecimalFormat formatoCociente = new DecimalFormat("#.###");
+            DecimalFormat formatoProducto = new DecimalFormat("#,###,###");
+            final int LIMITE_SUPERIOR = 100, LIMITE_INFERIOR = 10;
+            double resultadoProducto = 0, diagonalSecundaria = 0, diagonalPrincipal = 0, resultadoCociente;
+    
+            String matrizTexto = "";
+    
+            // La matriz debe ser cuadrada para tener diagonales
+            int[][] matriz = new int[5][5];
+    
+            for (int fila = 0; fila < matriz.length; fila++) {
+    
+                for (int columna = 0; columna < matriz[fila].length; columna++) {
+    
+                    matriz[fila][columna] = (int) (Math.random() * (LIMITE_SUPERIOR - LIMITE_INFERIOR + 1) + LIMITE_INFERIOR);
+                    matrizTexto += matriz[fila][columna] + "\t";
+    
+                }
+                matrizTexto += "\n";
+                diagonalPrincipal += matriz[fila][fila];
+                diagonalSecundaria += matriz[fila][matriz.length - 1 - fila];
+            }
+            resultadoProducto = diagonalPrincipal * diagonalSecundaria;
+            resultadoCociente = diagonalPrincipal / diagonalSecundaria;
+    
+            System.out.println(diagonalPrincipal + "\t" + diagonalSecundaria);
+    
+            System.out.println("Matriz utilizada para la operación:\n" + matrizTexto +
+                    "\nProducto de las diagonales: " + formatoProducto.format(resultadoProducto) +
+                    "\nCociente de las diagonales: " + formatoCociente.format(resultadoCociente));
+    
+        } catch (Exception e) {
+            throw new Exception("Se ha producido un error en la función calcularProductoYCocienteDiagonales: " + e.toString());
+        }
+    }
     /*
      * 8. Escriba un algoritmo que llene de manera aleatoria una matriz de 100 filas
      * por 3 columnas con Xs y Os. Y mediante un vector cuente el número de Xs y Os
      * en cada fila. Imprima la matriz antes de llenarla, luego de llenarla y el
      * vector con el resultado.
      */
-
+public static void generarMatrizXsOs() throws Exception {
+        try {
+    
+            String[][] matrizXsOs = new String[100][3];
+            String[] contadorResultados = new String[2];
+            String matrizTexto = "";
+            final int maxAleatorio = 2, minAleatorio = 1;
+            int contadorX = 0, contadorO = 0, valorAleatorio;
+    
+            System.out.println("Matriz antes de ser llenada:\n");
+    
+            for (int fila = 0; fila < matrizXsOs.length; fila++) {
+                for (int columna = 0; columna < matrizXsOs[fila].length; columna++) {
+                    System.out.print(matrizXsOs[fila][columna] + "\t");
+                }
+                System.out.println();
+            }
+    
+            for (int fila = 0; fila < matrizXsOs.length; fila++) {
+                for (int columna = 0; columna < matrizXsOs[fila].length; columna++) {
+                    valorAleatorio = (int) (Math.random() * (maxAleatorio) + minAleatorio);
+    
+                    if (valorAleatorio == minAleatorio) {
+                        matrizXsOs[fila][columna] = "X";
+                        contadorX++;
+                    } else if (valorAleatorio == maxAleatorio) {
+                        matrizXsOs[fila][columna] = "O";
+                        contadorO++;
+                    }
+    
+                    matrizTexto += matrizXsOs[fila][columna] + "\t";
+                }
+                matrizTexto += "\n";
+            }
+    
+            System.out.println("\nMatriz completamente llena:\n\n" + matrizTexto + "\n");
+    
+            contadorResultados[0] = "Cantidad de X en la matriz: " + contadorX;
+            contadorResultados[1] = "Cantidad de O en la matriz: " + contadorO;
+    
+            System.out.println("Resultados dentro del vector de conteo:\n");
+            for (String resultado : contadorResultados) {
+                System.out.print(resultado + " ");
+            }
+    
+        } catch (Exception e) {
+            throw new Exception("Error en la función generarMatrizXsOs: " + e.toString());
+        }
+    }
     /*
      * 9. Llene una matriz de 5x5 con números aleatorios entre 1 y 9. En un vector
      * adicional, calcule la cantidad de números repetidos por cada fila y en otro
      * vector la cantidad de números repetidos de cada columna.
      */
-
+ public static void contarNumerosRepetidos() throws Exception {
+        try {
+            int[][] matrizAleatoria = new int[5][5];
+            byte[] repetidosFilas = new byte[5];
+            byte[] repetidosColumnas = new byte[5];
+            int numeroActual = 0;
+    
+            final byte maximo = 9, minimo = 1;
+    
+            System.out.println("Matriz de números aleatorios generada:\n");
+            for (int fila = 0; fila < matrizAleatoria.length; fila++) {
+                for (int columna = 0; columna < matrizAleatoria[fila].length; columna++) {
+                    matrizAleatoria[fila][columna] = (int) (Math.random() * maximo + minimo);
+                    System.out.print(matrizAleatoria[fila][columna] + "\t");
+                }
+                System.out.println();
+            }
+    
+            // Contar repetidos por fila
+            boolean[] verificacionRepetidosFila = new boolean[10];
+            for (int fila = 0; fila < matrizAleatoria.length; fila++) {
+    
+                for (int i = 0; i < verificacionRepetidosFila.length; i++) {
+                    verificacionRepetidosFila[i] = false;
+                }
+    
+                for (int columna = 0; columna < matrizAleatoria[fila].length; columna++) {
+                    numeroActual = matrizAleatoria[fila][columna];
+                    if (verificacionRepetidosFila[numeroActual]) {
+                        repetidosFilas[fila]++;
+                    } else {
+                        verificacionRepetidosFila[numeroActual] = true;
+                    }
+                }
+            }
+    
+            // Contar repetidos por columna
+            boolean[] verificacionRepetidosColumna = new boolean[10];
+            for (int columna = 0; columna < matrizAleatoria[0].length; columna++) {
+    
+                for (int i = 0; i < verificacionRepetidosColumna.length; i++) {
+                    verificacionRepetidosColumna[i] = false;
+                }
+    
+                for (int fila = 0; fila < matrizAleatoria.length; fila++) {
+                    int numeroEnColumna = matrizAleatoria[fila][columna];
+                    if (verificacionRepetidosColumna[numeroEnColumna]) {
+                        repetidosColumnas[columna]++;
+                    } else {
+                        verificacionRepetidosColumna[numeroEnColumna] = true;
+                    }
+                }
+            }
+    
+            // Mostrar resultados de repetidos por fila
+            System.out.println("\nNúmeros repetidos por fila:");
+            for (int i = 0; i < repetidosFilas.length; i++) {
+                System.out.println("Fila " + (i + 1) + ": " + repetidosFilas[i] + " repetidos");
+            }
+    
+            // Mostrar resultados de repetidos por columna
+            System.out.println("\nNúmeros repetidos por columna:");
+            for (int i = 0; i < repetidosColumnas.length; i++) {
+                System.out.println("Columna " + (i + 1) + ": " + repetidosColumnas[i] + " repetidos");
+            }
+    
+        } catch (Exception e) {
+            throw new Exception("Error en la función contarNumerosRepetidos: " + e.toString());
+        }
+    }
 }
